@@ -6,6 +6,7 @@ import dns
 import os
 # import dotenv to hide Atlas Credentials
 from dotenv import load_dotenv
+import certifi
 
 class Model(dict):
     """
@@ -45,7 +46,7 @@ class User(Model):
 
     load_dotenv()  # take environment variables from .env.
     MONGODB_URI = os.environ['MONGODB_URI']
-    db_client = pymongo.MongoClient(MONGODB_URI)
+    db_client = pymongo.MongoClient(MONGODB_URI,    tlsCAFile=certifi.where())
     collection = db_client["users"]["users_list"]  #db name is 'users' and collection name is 'users_list'
 
     def find_all(self):
